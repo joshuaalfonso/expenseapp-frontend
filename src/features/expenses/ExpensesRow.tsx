@@ -2,12 +2,13 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import type { ExpensesList } from "@/models/expenses"
 import { format, isToday } from "date-fns"
-import { EllipsisVertical } from "lucide-react"
+import { EllipsisVertical, Loader2Icon } from "lucide-react"
 import React, { useState } from "react"
 import { CreateEditExpenses } from "./CreateEditExpenses"
 import type { CategoriesList } from "@/models/categories"
 import { formatNumber } from "@/utils/formatNumber"
 import { useDeleteExpense } from "./useDeleteExpense"
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 
 
 interface Props {
@@ -22,14 +23,22 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [alertOpen, setAlertOpen] = useState<boolean>(false);
     
     const {
         deleteExpenseMutation,
         isDeleting
     } = useDeleteExpense();
 
-    const handleCategoryDelete = () => {
-        deleteExpenseMutation(row)
+    const handleExpenseDelete = () => {
+        deleteExpenseMutation(
+            row,
+            {
+                onSuccess: () => {
+                    setAlertOpen(false)
+                }
+            }
+        )
     }
 
     const isItToday = isToday(new Date(row.date));
@@ -57,6 +66,37 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
                 categoriesError={categoriesError}
             />
 
+            <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+                <AlertDialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your
+                            data from our servers.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                        <Button 
+                            variant="destructive"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleExpenseDelete();
+                                console.log('asd')
+                            }}
+                            disabled={isDeleting}
+                        >
+                            { isDeleting && <Loader2Icon className="animate-spin" /> }
+                           { isDeleting ? 'Deleting': 'Delete' }
+                        </Button>
+                    </AlertDialogFooter>
+
+                </AlertDialogContent>
+            </AlertDialog>
+
             <DropdownMenu 
                 open={menuOpen} 
                 onOpenChange={setMenuOpen}
@@ -79,7 +119,15 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
                             <i className="fi fi-rr-pencil flex"></i>
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer" onClick={handleCategoryDelete} disabled={isDeleting}>
+                        <DropdownMenuItem 
+                            className="cursor-pointer" 
+                            disabled={isDeleting}
+                            onSelect={(e) => {
+                                e.preventDefault();
+                                setMenuOpen(false);
+                                setAlertOpen(true);
+                            }} 
+                        >
                             <i className="fi fi-rr-trash flex"></i>
                             Delete
                         </DropdownMenuItem>

@@ -12,18 +12,36 @@ import { useDeleteCategory } from "./useDeleteCategory"
 import { CreateEditCategories } from "./CreateEditCategories";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Ellipsis } from 'lucide-react';
+import { Ellipsis, Loader2Icon } from 'lucide-react';
+
+import { 
+    AlertDialog, 
+    AlertDialogCancel, 
+    AlertDialogContent, 
+    AlertDialogDescription, 
+    AlertDialogFooter, 
+    AlertDialogHeader, 
+    AlertDialogTitle 
+} from "@/components/ui/alert-dialog"
 
 
 export const CategoriesRow = ({row}: {row: CategoriesList}) => {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(false);
     
     const { deleteCategoryMutation, isDeleting } = useDeleteCategory();
 
     const handleCategoryDelete = () => {
-        deleteCategoryMutation(row.id)
+        deleteCategoryMutation(
+            row.id,
+            {
+                onSuccess: () => {
+                    setAlertOpen(false);
+                }
+            }
+        )
     }
 
     return (
@@ -45,6 +63,36 @@ export const CategoriesRow = ({row}: {row: CategoriesList}) => {
                 dialogOpen={dialogOpen} 
                 setDialogOpen={setDialogOpen}
             />
+
+            <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+                <AlertDialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your
+                            data from our servers.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                        <Button 
+                            variant="destructive"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleCategoryDelete();
+                            }}
+                            disabled={isDeleting}
+                        >
+                            { isDeleting && <Loader2Icon className="animate-spin" /> }
+                           { isDeleting ? 'Deleting': 'Delete' }
+                        </Button>
+                    </AlertDialogFooter>
+
+                </AlertDialogContent>
+            </AlertDialog>
 
             <DropdownMenu 
                 open={menuOpen} 
@@ -68,7 +116,13 @@ export const CategoriesRow = ({row}: {row: CategoriesList}) => {
                             <i className="fi fi-rr-pencil flex"></i>
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer" onClick={handleCategoryDelete} disabled={isDeleting}>
+                        <DropdownMenuItem className="cursor-pointer"  
+                            onSelect={(e) => {
+                                e.preventDefault();
+                                setMenuOpen(false);
+                                setAlertOpen(true);
+                            }} 
+                        >
                             <i className="fi fi-rr-trash flex"></i>
                             Delete
                         </DropdownMenuItem>

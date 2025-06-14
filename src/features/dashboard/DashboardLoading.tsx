@@ -15,7 +15,7 @@ export const DashboardLoading = () => {
         <>
 
             <div className="mb-4">
-                <Skeleton className="h-[20px] w-[200px] rounded-xl"/>
+                <Skeleton className="h-[24px] w-[200px] rounded-xl"/>
             </div> 
 
             <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">

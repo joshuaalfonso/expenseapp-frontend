@@ -30,7 +30,7 @@ export const DashboardCards = ({monthExpense, totalExpense, averagePerMonth}: Da
             </DashboardCard>
 
             <DashboardCard
-                label="Average Expense Monthly"
+                label="Average Monthly"
                 value={formatNumber(+averagePerMonth)}
             >
                 <i className="fi fi-rr-calculator-bill flex text-lg"></i>
