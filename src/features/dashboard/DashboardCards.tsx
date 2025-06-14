@@ -34,9 +34,7 @@ export const DashboardCards = ({monthExpense, totalExpense, averagePerMonth}: Da
                 value={formatNumber(+averagePerMonth)}
             >
                 <i className="fi fi-rr-calculator-bill flex text-lg"></i>
-            </DashboardCard>
-
-            
+            </DashboardCard>       
 
         </div>
     )

@@ -1,6 +1,7 @@
 
 import { DashboardCards } from "@/features/dashboard/DashboardCards";
 import { DashboardGreet } from "@/features/dashboard/DashboardGreet";
+import { DashboardLoading } from "@/features/dashboard/DashboardLoading";
 import { DashboardMonthsChart } from "@/features/dashboard/DashboardMonthsChart";
 import { DashboardTopCategories } from "@/features/dashboard/DashboardTopCategories";
 import { useDashboardSummary } from "@/features/dashboard/useDashboardSummary";
@@ -10,7 +11,7 @@ export const Dashboard = () => {
 
     const { dashboardSummary, isPending, error } = useDashboardSummary();
 
-    if (isPending) return <p>Loading...</p>;
+    if (isPending) return <DashboardLoading />;
     if (error) return <p>{error.message || 'An unknown error occured'}</p>
 
     if (!dashboardSummary) return <p>No summary</p>
