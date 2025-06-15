@@ -116,7 +116,6 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
 
                 <DialogContent 
                     className="sm:max-w-[425px]"  
-                  
                 >
                     <DialogHeader>
                         <DialogTitle>Create Category</DialogTitle>
@@ -157,12 +156,12 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                                                         sideOffset={8} 
                                                         align="end" 
                                                         side="bottom"
+                                                        onOpenAutoFocus={(e) => e.preventDefault()}
                                                     >
                                                         <EmojiPicker
                                                             className="h-[342px]"
                                                             onEmojiSelect={({ emoji }) => {
                                                             setEmojiOpen(false);
-                                                            // console.log(emoji);
                                                             form.setValue('category_icon', emoji, {shouldValidate: true})
                                                             }}
                                                         >

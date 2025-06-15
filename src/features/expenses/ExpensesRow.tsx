@@ -81,13 +81,19 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                         <Button 
-                            variant="destructive"
+                            variant="outline"
+                            className={`
+                                !bg-[var(--color-destructive)]/10  
+                                text-[var(--color-destructive)] 
+                                !border-[var(--color-destructive)]/10
+                                hover:!bg-[var(--color-destructive)]/60
+                            `}
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleExpenseDelete();
                                 console.log('asd')
                             }}
-                            disabled={isDeleting}
+                            disabled={isDeleting} 
                         >
                             { isDeleting && <Loader2Icon className="animate-spin" /> }
                            { isDeleting ? 'Deleting': 'Delete' }

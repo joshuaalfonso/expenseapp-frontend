@@ -79,7 +79,13 @@ export const CategoriesRow = ({row}: {row: CategoriesList}) => {
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                         <Button 
-                            variant="destructive"
+                            variant="outline"
+                            className={`
+                                !bg-[var(--color-destructive)]/10  
+                                text-[var(--color-destructive)] 
+                                !border-[var(--color-destructive)]/10
+                                hover:!bg-[var(--color-destructive)]/60
+                            `}
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleCategoryDelete();
