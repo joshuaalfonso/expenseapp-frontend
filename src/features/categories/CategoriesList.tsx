@@ -3,6 +3,8 @@ import { useCategories } from "./useCategories";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { CreateEditCategories } from "./CreateEditCategories";
 import { CategoriesRow } from "./CategoriesRow";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { AlertTriangleIcon } from "lucide-react";
 
 
 export const CategoriesList = () => {
@@ -16,7 +18,14 @@ export const CategoriesList = () => {
         </div>
     );
 
-    if (error) return <p>{error.message || 'There was an error fetching categories'}</p>
+    if (error) return (
+         <Alert className="bg-[var(--color-destructive)]/10 text-[var(--color-destructive)] border-[var(--color-destructive)]/10">
+            <AlertTriangleIcon />
+            <AlertTitle>
+                Sorry, something went wrong while loading categories.
+            </AlertTitle>
+        </Alert>
+    )
 
 
     return (

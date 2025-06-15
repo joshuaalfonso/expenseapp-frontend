@@ -1,12 +1,25 @@
-import { fetchPaginatedExpenses } from "@/services/apiExpenses";
-import { keepPreviousData, useQuery } from "@tanstack/react-query"
+
 import { ExpensesRow } from "./ExpensesRow";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { CreateEditExpenses } from "./CreateEditExpenses";
 import { useCategories } from "../categories/useCategories";
 import { useMemo, useState } from "react";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { SortBy, type SortOptions } from "../../ui/SortBy";
+import { useExpenses } from "./useExpenses";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { AlertTriangleIcon } from "lucide-react";
 
+const options: SortOptions[] = [
+    {
+        value: 'desc', 
+        label: "Sort by date (recent first)"
+    },
+    {
+        value: 'asc', 
+        label: "Sort by date (old first)"
+    }
+]
 
 export const ExpensesList = () => {
 
@@ -14,12 +27,7 @@ export const ExpensesList = () => {
 
     const [page, setPage] = useState<number>(1);
 
-    const {data: paginatedData, isPending, error} = useQuery({
-        queryKey: ['expenses', page],
-        queryFn: () => fetchPaginatedExpenses(page),
-        placeholderData: keepPreviousData,
-        staleTime: 5000,
-    })
+    const {paginatedData, isPending, error} = useExpenses(page);
 
     const visiblePages = useMemo(() => {
         if (!paginatedData) return [];
@@ -27,8 +35,6 @@ export const ExpensesList = () => {
         return Array.from({ length: paginatedData.totalPages }, (_, i) => i + 1)
             .filter(p => p !== 1 && p !== paginatedData.totalPages && Math.abs(p - page) <= 1);
     }, [paginatedData, page]);
-
-    // console.log(paginatedData)
 
     const { 
         data: categories, 
@@ -43,14 +49,23 @@ export const ExpensesList = () => {
         </div>
     );
 
-    if (error) return <p>{error.message || 'An error occured while fetching data.'}</p>;
-
-    console.log('expense list init')
+    if ( !paginatedData || error) return (
+        <Alert className="bg-[var(--color-destructive)]/10 text-[var(--color-destructive)] border-[var(--color-destructive)]/10">
+            <AlertTriangleIcon />
+            <AlertTitle>
+             Sorry, something went wrong while loading your expenses.
+            </AlertTitle>
+        </Alert>
+    );
+    // console.log('expense list init')
 
     return (
         <>
 
-            <div className="flex justify-end mb-4">
+            <div className="flex justify-between gap-4 mb-4">
+
+                <SortBy options={options} />
+
                 <CreateEditExpenses 
                     categories={categories || []}
                     isCategoriesLoading={isCategoriesLoading}
@@ -60,11 +75,12 @@ export const ExpensesList = () => {
                 />
             </div>
 
-            {paginatedData.data?.length === 0 && (
+            {paginatedData?.data?.length === 0 && (
                  <div className="h-[200px] grid place-items-center bg-[var(--color-input]) rounded-[var(--radius-sm)]">
                     <p className="text-center col-span-full opacity-70">No expenses found.</p>
                 </div>
             )}
+            
 
             <ul className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]">
                 {paginatedData.data?.map(row => (

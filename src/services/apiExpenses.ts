@@ -9,8 +9,8 @@ export const fetchExpenses = async () => {
     return data as ExpensesList[];
 }
 
-export const fetchPaginatedExpenses = async (page: number) => {
-    const { data } = await axios.get(`${baseUrl}${tableName}/${'page/' + page}`);
+export const fetchPaginatedExpenses = async (page: number, sortBy: string) => {
+    const { data } = await axios.get(`${baseUrl}${tableName}/${'page/' + page}/${'sortBy/' + sortBy}`);
     return data as PaginatedExpenseList;
 }
 
