@@ -1,8 +1,5 @@
 "use client"
 
-// import { TrendingUp } from "lucide-react"
-import { Pie, PieChart } from "recharts"
-
 import {
   Card,
   CardContent,
@@ -19,6 +16,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import type { TopCategories } from "@/models/dashboard"
+import { Pie, PieChart } from "recharts"
 
 
 export const description = "A donut chart"
@@ -26,11 +24,15 @@ export const description = "A donut chart"
 
 export function DashboardTopCategories({topCategories}: {topCategories: TopCategories[]}) {
 
+
     const chartData = topCategories.map((item, index) => ({
         category: item.category_name,
         count: item.count,
+        countAndCategory: `${item.count} — ${item.category_name}`, 
         fill: `var(--chart-${index + 1})`, // assuming CSS variables for colors
     }));
+
+    console.log(chartData)
 
     const chartConfig = {
         count: {
@@ -56,9 +58,10 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
                     config={chartConfig}
-                    className="mx-auto aspect-square max-h-[250px]  [&_.recharts-pie-label-text]:fill-foreground"
+                    className=" mx-auto aspect-square max-h-[250px]  [&_.recharts-pie-label-text]:fill-foreground"
                 >
-                    <PieChart>
+                    {/* aspect-square */}
+                    <PieChart >
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
@@ -67,14 +70,12 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                             data={chartData}
                             dataKey="count"
                             nameKey="category"
-                            innerRadius={60}
+                            innerRadius={55}
+                            paddingAngle={10}
                         >
-                            {/* {chartData.map((entry, i) => (
-                                <Cell key={i} fill={entry.fill} />
-                            ))} */}
                         </Pie>
                         <ChartLegend 
-                            content={<ChartLegendContent nameKey="category" />}
+                            content={<ChartLegendContent nameKey="category"/>}
                             className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
                         />
                     </PieChart>
@@ -93,3 +94,5 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
         </Card>
     )
 }
+
+
