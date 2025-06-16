@@ -6,7 +6,6 @@
 
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
 
 import {
@@ -37,13 +36,19 @@ const chartConfig = {
 
 export function DashboardMonthsChart( {monthsExpense}: {monthsExpense: MonthsExpense[]} ) {
 
-  const maxValue = Math.max(...monthsExpense.map(item => +item.total));
+
+  // const maxValue = Math.max(...monthsExpense.map(item => +item.total));
+  const currentYear = new Date().getFullYear();
+
+  const highestExpense = monthsExpense.reduce((max, current) => {
+    return current.total > max.total ? current : max;
+  }, monthsExpense[0]);
 
     return (
         <Card className="bg-[var(--background)]">
           <CardHeader>
               <CardTitle>Monthly Expenses</CardTitle>
-              <CardDescription>January - December</CardDescription>
+              <CardDescription>Year {currentYear}</CardDescription>
           </CardHeader>
           <CardContent>
               <ChartContainer config={chartConfig}>
@@ -63,7 +68,7 @@ export function DashboardMonthsChart( {monthsExpense}: {monthsExpense: MonthsExp
                       tick={{ fontSize: 10 }}
                       tickFormatter={(value) => value.slice(0, 3)}
                   />
-                   <YAxis domain={[0, maxValue + 200]} hide={true}/> 
+                   <YAxis domain={[0, highestExpense.total + 200]} hide={true}/> 
                   <ChartTooltip
                       cursor={false}
                       content={<ChartTooltipContent indicator="line" />}
@@ -81,7 +86,8 @@ export function DashboardMonthsChart( {monthsExpense}: {monthsExpense: MonthsExp
           </CardContent>
           <CardFooter className="flex-col items-start gap-2 text-sm">
               <div className="flex gap-2 leading-none font-medium">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+              {/* Trending up by {maxValue}% this month <TrendingUp className="h-4 w-4" /> */}
+              The highest expense is in {highestExpense.month_name}, totaling {highestExpense.total}.
               </div>
               <div className="text-muted-foreground leading-none">
               Showing total expenses for each month

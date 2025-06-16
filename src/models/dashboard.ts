@@ -13,7 +13,7 @@ export interface DashboardSummary {
 export interface TopCategories {
   category_id: number
   category_name: string
-  count: number
+  total: number
 }
 
 export interface MonthsExpense {
