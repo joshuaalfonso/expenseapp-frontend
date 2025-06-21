@@ -84,15 +84,16 @@ export function DashboardMonthsChart( {monthsExpense}: {monthsExpense: MonthsExp
               </BarChart>
               </ChartContainer>
           </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
+          {+highestExpense?.total > 0 && (
+            <CardFooter className="flex-col items-start gap-2 text-sm">
               <div className="flex gap-2 leading-none font-medium">
-              {/* Trending up by {maxValue}% this month <TrendingUp className="h-4 w-4" /> */}
               The highest expense is in {highestExpense.month_name}, totaling {highestExpense.total}.
               </div>
               <div className="text-muted-foreground leading-none">
               Showing total expenses for each month
               </div>
-          </CardFooter>
+            </CardFooter>
+          )}
         </Card>
     )
 }

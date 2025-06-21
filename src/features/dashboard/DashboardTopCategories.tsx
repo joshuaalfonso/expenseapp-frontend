@@ -92,14 +92,16 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                 </ChartContainer>
             </CardContent>
 
-            <CardFooter className="flex-col gap-2 text-sm">
-                <div className="flex items-center gap-2 leading-none font-medium">
-                     The highest entry is {highestEntry.category_name}, totaling {highestEntry.total}.
-                </div>
-                <div className="text-muted-foreground leading-none">
-                    Showing the most entries in each category for the year.
-                </div>
-            </CardFooter>
+            {highestEntry && (
+                <CardFooter className="flex-col gap-2 text-sm">
+                    <div className="flex items-center gap-2 leading-none font-medium">
+                        The highest entry is {highestEntry.category_name}, totaling {highestEntry.total}.
+                    </div>
+                    <div className="text-muted-foreground leading-none">
+                        Showing the most entries in each category for the year.
+                    </div>
+                </CardFooter>
+            )}
             
         </Card>
     )

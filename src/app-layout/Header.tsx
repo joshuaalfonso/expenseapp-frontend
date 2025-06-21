@@ -21,6 +21,10 @@ export const Header = () => {
     const image = new Image();
     image.src = url;
 
+    const corsImageModified = new Image();
+    corsImageModified.crossOrigin = "Anonymous";
+    corsImageModified.src = url + "?not-from-cache-please";
+
     return (
         <header className='z-10 px-6 fixed w-full left-0 top-0 border-b border-[var(--color-border)] backdrop-blur-sm'>
             <nav className='flex items-center justify-between h-[50px] max-w-7xl mx-auto '>
