@@ -31,7 +31,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
         fill: `var(--chart-${index + 1})`, 
     }));
 
-    console.log(chartData)
+    // console.log(chartData)
 
     const chartConfig = {
         total: {
@@ -82,6 +82,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                             dataKey="total"
                             innerRadius={55}
                             paddingAngle={5}
+                            
                         >
                         </Pie>
                         <ChartLegend 
@@ -92,7 +93,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                 </ChartContainer>
             </CardContent>
 
-            {highestEntry && (
+            { highestEntry && (
                 <CardFooter className="flex-col gap-2 text-sm">
                     <div className="flex items-center gap-2 leading-none font-medium">
                         The highest entry is {highestEntry.category_name}, totaling {highestEntry.total}.
@@ -106,5 +107,4 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
         </Card>
     )
 }
-
 
