@@ -113,7 +113,7 @@ export const CreateEditExpenses = ({
                 {
                     onSuccess: () => {
                         setDialogOpen(false);
-                        form.reset();
+                        form.reset({...data});
                     }
                 }
             )
@@ -133,9 +133,28 @@ export const CreateEditExpenses = ({
 
     }
 
+    const handleDialogOpenChange = (open: boolean) => {
+        setDialogOpen(open);
+        form.reset( isEditMode ? {
+            id: row.id ?? null,
+            date: safeDate(row.date), 
+            category_id: String(row.category_id ?? ''),
+            amount: String(row.amount ?? ''),
+            oldAmount: String(row.amount ?? ''),
+            description: row.description ?? '',
+        } : {
+            id: null,
+            date: new Date(), 
+            category_id: '',
+            amount: '',
+            oldAmount: '',
+            description: '',
+        });
+    }
+
 
     return (
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
                 <DialogTrigger asChild>
                     {!isEditMode && (
                         <Button variant="default">

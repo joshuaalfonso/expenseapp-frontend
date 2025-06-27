@@ -67,6 +67,7 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
         }   
     })
 
+
     const { createCategoryMutation, isCreating } = useCreateCategory();
 
     const { editCategoryMutation, isUpdating } = useEditCategory();
@@ -81,7 +82,7 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                 values,
                 {
                     onSuccess: () => {
-                        form.reset();
+                        form.reset({...values});
                         setDialogOpen(false);
                     }
                 }
@@ -102,9 +103,19 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
 
     }
 
+    const handleDialogOpenChange = (open: boolean) => {
+        setDialogOpen(open);
+        form.reset(isEditMode ? { ...row } : {
+            id: null,
+            category_name: "",
+            category_icon: "",
+            date_created: null,
+        });
+    }
+
 
     return (
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
             <form>
                 <DialogTrigger asChild>
                     {!isEditMode && (
