@@ -30,6 +30,9 @@ import { Loader2Icon } from "lucide-react"
 import type { CategoriesList } from "@/models/categories"
 import { useEditCategory } from "./useEditCategory"
 import { useCreateCategory } from "./useCreateCategory"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
+import { AdminOnly } from "../auth/AdminOnly"
 
 
 const formSchema = z.object({
@@ -40,6 +43,7 @@ const formSchema = z.object({
     category_icon: z.string().min(1, {
         message: "This field is required."
     }),
+    is_default: z.number().optional(),
     date_created: z.string().nullable()
 })
 
@@ -63,6 +67,7 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
             id: null,
             category_name: "",
             category_icon: "",
+            is_default: 0,
             date_created: null,
         }   
     })
@@ -75,11 +80,14 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
     const isWorking = isCreating || isUpdating;
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+
+        const is_default = values.is_default ? 1 : 0;
+        
+        const data = {...values, is_default}
 
         if (isEditMode) {
             editCategoryMutation(
-                values,
+                data,
                 {
                     onSuccess: () => {
                         form.reset({...values});
@@ -91,7 +99,7 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
         
         else {
             createCategoryMutation(
-                values,
+                data,
                 {
                     onSuccess: () => {
                         form.reset();
@@ -202,6 +210,26 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                                     </FormItem>
                                 )}
                             />
+
+                            <AdminOnly>
+                                <FormField 
+                                    control={form.control}
+                                    name="is_default"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Default</FormLabel>
+                                            <div className="flex items-center gap-3">
+                                                <Checkbox 
+                                                    id="isDefault" 
+                                                    {...field} 
+                                                    checked={field.value === 1}
+                                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}/>
+                                                <Label htmlFor="isDefault"> Category for all users </Label>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
+                            </AdminOnly>
         
                             <DialogFooter>
                                 <DialogClose asChild>
