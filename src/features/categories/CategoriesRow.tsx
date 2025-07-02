@@ -106,9 +106,12 @@ export const CategoriesRow = ({row}: {row: CategoriesList}) => {
             >
                 <DropdownMenuTrigger asChild className="focus:outline-none focus:ring-0 focus:ring-transparent">
                     
-                    <Button variant="ghost">
-                        <Ellipsis />
-                    </Button>
+
+                    {row.is_default === 0 && (
+                        <Button variant="ghost">
+                            <Ellipsis />
+                        </Button>
+                    )}
                     
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-40" align="end">

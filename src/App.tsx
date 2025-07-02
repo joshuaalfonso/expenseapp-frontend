@@ -6,6 +6,8 @@ import { Categories } from "./pages/Categories"
 import { LogIn } from "./pages/LogIn"
 import { useAuthContext } from "./features/auth/useAuthContext"
 import { ProtectedRoute } from "./features/auth/ProtectedRoute"
+import { Budgets } from "./pages/Budgets"
+import { Users } from "./pages/Users"
 
 
 export const App = () => {
@@ -42,6 +44,22 @@ export const App = () => {
                     element={ 
                         // <ProtectedRoute> 
                             <Categories /> 
+                        // </ProtectedRoute>
+                     } 
+                />
+                <Route 
+                    path="budgets" 
+                    element={ 
+                        // <ProtectedRoute> 
+                            <Budgets /> 
+                        // </ProtectedRoute>
+                     } 
+                />
+                <Route 
+                    path="users" 
+                    element={ 
+                        // <ProtectedRoute> 
+                            <Users /> 
                         // </ProtectedRoute>
                      } 
                 />

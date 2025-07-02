@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query'
 import { Header } from "./Header"
 import { ThemeToaster } from "./ThemeToaster";
+import { AdminOnly } from "@/features/auth/AdminOnly";
 
 export const AppLayout = () => {
 
@@ -40,6 +41,20 @@ export const AppLayout = () => {
                             Categories
                         </NavLink>
                     </li>
+                    {/* <li>
+                        <NavLink to="/budgets">
+                            <i className="fi fi-rr-piggy-bank-budget flex "></i>
+                            Budgets
+                        </NavLink>
+                    </li> */}
+                    <AdminOnly>
+                        <li>
+                            <NavLink to="/users">
+                                <i className="fi fi-rr-user flex "></i>
+                                Users
+                            </NavLink>
+                        </li>
+                    </AdminOnly>
                 </ul>
                 </aside>
         

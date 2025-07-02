@@ -80,7 +80,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                         <Pie
                             data={chartData}
                             dataKey="total"
-                            innerRadius={55}
+                            innerRadius={62}
                             paddingAngle={5}
                             
                         >

@@ -5,6 +5,7 @@ export interface CategoriesList {
     id: number,
     category_name: string,
     category_icon: string,
+    is_default: number,
     date_created: string
 }
 

@@ -23,7 +23,7 @@ aside a {
 }
 
 aside a.active, aside a:hover {
-  @apply bg-[var(--color-primary)]/10 text-[var(--color-primary)]
+  @apply bg-[var(--color-primary)]/5 text-[var(--color-primary)]
 }
 
 @custom-variant dark (&:is(.dark *));

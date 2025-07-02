@@ -41,6 +41,16 @@ export const ExpensesList = () => {
         isPending: isCategoriesLoading, 
         error: categoriesError 
     } = useCategories();
+
+    const currentPage = Number(paginatedData?.currentPage) || 1;
+    const perPage = Number(paginatedData?.perPage) || 10; // fallback per page default
+    const totalResults = Number(paginatedData?.total) || 0;
+
+    const start = (currentPage - 1) * perPage + 1;
+    let end = currentPage * perPage;
+    if (end > totalResults) end = totalResults;
+
+    const displayText = `Showing ${totalResults === 0 ? 0 : start} to ${end} of ${totalResults} results`;
     
 
     if (isPending) return (
@@ -61,7 +71,6 @@ export const ExpensesList = () => {
 
     return (
         <>
-
             <div className="flex justify-between gap-4 mb-4">
 
                 <SortBy options={options} />
@@ -95,87 +104,91 @@ export const ExpensesList = () => {
             </ul>
 
             {paginatedData.totalPages > 1 && (
-                <Pagination className="mt-8">
-                    <PaginationContent>
+                <div className="space-y-4 mt-4">
+                    <span className="text-xs font-medium"> {displayText} results</span>
+                    <Pagination className="mt-8">
+                        <PaginationContent>
 
-                        <PaginationItem>
-                            <PaginationPrevious
-                                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                                className={page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                            />
-                        </PaginationItem>
-
-                        {/* First Page */}
-                        <PaginationItem>
-                            <PaginationLink
-                                onClick={() => setPage(1)}
-                                isActive={page === 1}
-                                className={
-                                    page === 1 ? 'cursor-not-allowed' : 'cursor-pointer'
-                                }
-                            >
-                                1
-                            </PaginationLink>
-                        </PaginationItem>
-
-                        {/* Start Ellipsis */}
-                        {page > 3 && (
                             <PaginationItem>
-                                <PaginationEllipsis />
+                                <PaginationPrevious
+                                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                                    className={page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                />
                             </PaginationItem>
-                        )}
 
-                        {/* Pages around current */}
-                        {visiblePages.map(p => (
-                                <PaginationItem key={p}>
-                                    <PaginationLink 
-                                        onClick={() => setPage(p)} 
-                                        isActive={p === page}
-                                        className={`${p === page ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                                    >
-                                        {p}
-                                    </PaginationLink>
-                                </PaginationItem>
-                        ))}
-
-
-                        {/* End Ellipsis */}
-                            {page < paginatedData.totalPages - 2 && (
-                            <PaginationItem>
-                                <PaginationEllipsis />
-                            </PaginationItem>
-                        )}
-
-                        {/* Last Page */}
-                        {paginatedData.totalPages > 1 && (
+                            {/* First Page */}
                             <PaginationItem>
                                 <PaginationLink
-                                    onClick={() => setPage(paginatedData.totalPages)}
-                                    isActive={page === paginatedData.totalPages}
+                                    onClick={() => setPage(1)}
+                                    isActive={page === 1}
                                     className={
-                                        page === paginatedData.totalPages ? 'cursor-not-allowed' : 'cursor-pointer'
+                                        page === 1 ? 'cursor-not-allowed' : 'cursor-pointer'
                                     }
                                 >
-                                {paginatedData.totalPages}
+                                    1
                                 </PaginationLink>
                             </PaginationItem>
-                        )}
 
-                        <PaginationItem>
-                            <PaginationNext 
-                                onClick={() =>
-                                    setPage((prev) =>
-                                        Math.min(prev + 1)
-                                    )
-                                }
-                                className={
-                                    page === paginatedData?.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'
-                                }
-                            />
-                        </PaginationItem>
+                            {/* Start Ellipsis */}
+                            {page > 3 && (
+                                <PaginationItem>
+                                    <PaginationEllipsis />
+                                </PaginationItem>
+                            )}
 
-                    </PaginationContent>
-            </Pagination>
+                            {/* Pages around current */}
+                            {visiblePages.map(p => (
+                                    <PaginationItem key={p}>
+                                        <PaginationLink 
+                                            onClick={() => setPage(p)} 
+                                            isActive={p === page}
+                                            className={`${p === page ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                        >
+                                            {p}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                            ))}
+
+
+                            {/* End Ellipsis */}
+                                {page < paginatedData.totalPages - 2 && (
+                                <PaginationItem>
+                                    <PaginationEllipsis />
+                                </PaginationItem>
+                            )}
+
+                            {/* Last Page */}
+                            {paginatedData.totalPages > 1 && (
+                                <PaginationItem>
+                                    <PaginationLink
+                                        onClick={() => setPage(paginatedData.totalPages)}
+                                        isActive={page === paginatedData.totalPages}
+                                        className={
+                                            page === paginatedData.totalPages ? 'cursor-not-allowed' : 'cursor-pointer'
+                                        }
+                                    >
+                                    {paginatedData.totalPages}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            )}
+
+                            <PaginationItem>
+                                <PaginationNext 
+                                    onClick={() =>
+                                        setPage((prev) =>
+                                            Math.min(prev + 1)
+                                        )
+                                    }
+                                    className={
+                                        page === paginatedData?.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+                                    }
+                                />
+                            </PaginationItem>
+
+                        </PaginationContent>
+                    </Pagination>
+                    
+                </div>
             )}
         </>
     )
