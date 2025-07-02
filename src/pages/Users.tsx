@@ -1,6 +1,8 @@
 import { LoadingSpinner } from "@/components/LoadingSpinner"
+import { Alert, AlertTitle } from "@/components/ui/alert"
 import { fetchUsers } from "@/services/apiUsers"
 import { useQuery } from "@tanstack/react-query"
+import { AlertTriangleIcon } from "lucide-react"
 
 
 
@@ -13,13 +15,20 @@ export const Users = () => {
         queryFn: fetchUsers
     })
 
-    if (isPending) {
-        return <LoadingSpinner />
-    }
+    if (isPending) return (
+        <div className="flex justify-center">
+            <LoadingSpinner />
+        </div>
+    );
 
-    if (error) {
-        return <span>{error.message || 'Unable to fetch users'}</span>
-    }
+    if (error) return (
+         <Alert className="bg-[var(--color-destructive)]/10 text-[var(--color-destructive)] border-[var(--color-destructive)]/10">
+            <AlertTriangleIcon />
+            <AlertTitle>
+                Sorry, something went wrong while loading categories.
+            </AlertTitle>
+        </Alert>
+    )
 
 
     return (
@@ -29,7 +38,7 @@ export const Users = () => {
             <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
 
                 {users?.map((item) => (
-                    <div className="flex flex-col items-center justify-center gap-4 border border-[var(--color-border)] p-4 rounded-[var(--radius-sm)] w-full">
+                    <div key={item.id} className="flex flex-col items-center justify-center gap-4 border border-[var(--color-border)] p-4 rounded-[var(--radius-sm)] w-full">
                         <img 
                             className="rounded-full"
                             src={item.picture} 
