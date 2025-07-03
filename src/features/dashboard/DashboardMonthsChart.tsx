@@ -24,6 +24,7 @@ import {
 
 import type { ChartConfig } from "@/components/ui/chart"
 import type { MonthsExpense } from "@/models/dashboard"
+import { formatNumber } from "@/utils/formatNumber"
 
 export const description = "A bar chart"
 
@@ -87,7 +88,7 @@ export function DashboardMonthsChart( {monthsExpense}: {monthsExpense: MonthsExp
           {+highestExpense?.total > 0 && (
             <CardFooter className="flex-col items-start gap-2 text-sm">
               <div className="flex gap-2 leading-none font-medium">
-              The highest expense is in {highestExpense.month_name}, totaling {highestExpense.total}.
+              The highest expense is in {highestExpense.month_name}, totaling {formatNumber(+highestExpense.total)}.
               </div>
               <div className="text-muted-foreground leading-none">
               Showing total expenses for each month

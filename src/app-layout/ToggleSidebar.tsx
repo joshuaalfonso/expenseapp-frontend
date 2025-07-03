@@ -2,6 +2,7 @@ import { useState } from "react"
 import { NavLink } from "react-router";
 
 import { createPortal } from 'react-dom';
+import { AdminOnly } from "@/features/auth/AdminOnly";
 
 
 export const ToogleSidebar = () => {
@@ -24,15 +25,17 @@ export const ToogleSidebar = () => {
 
             {createPortal(
                 <div 
+                    onClick={handleToggle}
                     className={`fixed left-0 top-0 z-20 w-full h-dvh transition-opacity duration-300
                         backdrop-blur-xs ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`
                     }
                 >
                      <aside
+                         onClick={(e) => e.stopPropagation()} 
                         className={`
-                            fixed left-0 top-0 z-30 h-full w-[276px] px-4 py-8
+                            fixed left-0 top-0 z-50 h-full w-[276px] px-4 py-8
                             bg-[var(--color-background)] border-r border-[var(--color-border)]
-                            transform transition-transform duration-300 space-y-8
+                            transform transition-transform duration-230 space-y-8
                             ${open ? 'translate-x-0' : '-translate-x-full'}
                         `}
                     >
@@ -61,6 +64,14 @@ export const ToogleSidebar = () => {
                                     Categories
                                 </NavLink>
                             </li>
+                                <AdminOnly>
+                                    <li>
+                                        <NavLink to="/users"  onClick={handleToggle}>
+                                            <i className="fi fi-rr-user flex "></i>
+                                            Users
+                                        </NavLink>
+                                    </li>
+                                </AdminOnly>
                         </ul>
                     </aside>
                 </div>,

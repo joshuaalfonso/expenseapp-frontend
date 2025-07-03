@@ -15,6 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import type { TopCategories } from "@/models/dashboard"
+import { formatNumber } from "@/utils/formatNumber"
 import { Pie, PieChart } from "recharts"
 
 
@@ -96,7 +97,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
             { highestEntry && (
                 <CardFooter className="flex-col gap-2 text-sm">
                     <div className="flex items-center gap-2 leading-none font-medium">
-                        The highest entry is {highestEntry.category_name}, totaling {highestEntry.total}.
+                        The highest entry is {highestEntry.category_name}, totaling {formatNumber(+highestEntry.total)}.
                     </div>
                     <div className="text-muted-foreground leading-none">
                         Showing the most entries in each category for the year.
