@@ -1,13 +1,10 @@
 import { ModeToggle } from "@/components/mode-toggle"
 import { ToogleSidebar } from "./ToggleSidebar"
-import { Button } from "@/components/ui/button"
-import { EllipsisVertical, LogOut } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useLogout } from "@/features/auth/useLogout"
 import { useAuthContext } from "@/features/auth/useAuthContext"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 
 export const Header = () => {
