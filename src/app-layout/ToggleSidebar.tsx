@@ -17,7 +17,7 @@ export const ToogleSidebar = () => {
         <>
             {/* <button onClick={handleToggle} className="block xl:hidden">toggle</button> */}
             <div 
-                className="block xl:hidden cursor-pointer hover:bg-[var(--color-primary)] hover:text-white p-2 rounded-full duration-300 ease-out"
+                className="block xl:hidden cursor-pointer hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)] p-2 rounded-full duration-300 ease-out"
                 onClick={handleToggle}
             >
                 <i className="fi fi-rr-bars-staggered flex text-lg"></i>
@@ -59,19 +59,25 @@ export const ToogleSidebar = () => {
                                 </NavLink>
                             </li>
                             <li>
+                                <NavLink to="/budgets" onClick={handleToggle}>
+                                    <i className="fi fi-rr-piggy-bank-budget flex "></i>
+                                    Budgets
+                                </NavLink>
+                            </li>
+                            <li>
                                 <NavLink to="/categories" onClick={handleToggle}>
                                     <i className="fi fi-rr-tags flex "></i>
                                     Categories
                                 </NavLink>
                             </li>
-                                <AdminOnly>
-                                    <li>
-                                        <NavLink to="/users"  onClick={handleToggle}>
-                                            <i className="fi fi-rr-user flex "></i>
-                                            Users
-                                        </NavLink>
-                                    </li>
-                                </AdminOnly>
+                            <AdminOnly>
+                                <li>
+                                    <NavLink to="/users"  onClick={handleToggle}>
+                                        <i className="fi fi-rr-users flex "></i>
+                                        Users
+                                    </NavLink>
+                                </li>
+                            </AdminOnly>
                         </ul>
                     </aside>
                 </div>,

@@ -12,6 +12,7 @@ export interface PaginatedExpenseList {
 export interface ExpensesList {
   id: number
   date: string
+  budget_id: number,
   category_id: number
   category_name: string
   category_icon: string
@@ -26,6 +27,7 @@ export interface ExpensesList {
 
 export interface ExpensesPost {
   id: number | null,
+  budget_id: number,
   date: string,
   category_id: number,
   amount: number,

@@ -19,6 +19,7 @@ import { useEditExpense } from "./useEditExpense";
 
 const formSchema = z.object({
     id: z.number().nullable(),
+    budget_id: z.number(),
     date: z.date({
         required_error: "A date is required.",
     }),
@@ -38,7 +39,7 @@ interface Props {
     isCategoriesLoading?: boolean;
     categoriesError?: Error | null;
     dialogOpen: boolean,
-    setDialogOpen: (open: boolean) => void
+    setDialogOpen: (open: boolean) => void,
 }
 
 export const CreateEditExpenses = ({
@@ -59,13 +60,14 @@ export const CreateEditExpenses = ({
         return date && isValid(date) ? date : undefined;
     };
 
-    // console.log(row.date)
+    // console.log(row)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues:  row
     ? {
         id: row.id ?? null,
+        budget_id: row.budget_id ?? 0,
         date: safeDate(row.date), 
         category_id: String(row.category_id ?? ''),
         amount: String(row.amount ?? ''),
@@ -74,6 +76,7 @@ export const CreateEditExpenses = ({
       }
     : {
         id: null,
+        budget_id: 0,
         date: new Date(), 
         category_id: '',
         amount: '',
@@ -91,7 +94,7 @@ export const CreateEditExpenses = ({
 
     function onSubmit(data: z.infer<typeof formSchema>) {
 
-        // console.log(data)
+        console.log(data)
 
         const formattedDate = format(data.date, 'yyyy-MM-dd');
         const formattedCategory = Number(data.category_id);
@@ -105,6 +108,8 @@ export const CreateEditExpenses = ({
             amount: formattedAmount,
             oldAmount: formattedOldAmount
         }
+
+        console.log(newExpense)
 
         // const baseExpense = {
         //     ...data,
@@ -167,6 +172,7 @@ export const CreateEditExpenses = ({
         setDialogOpen(open);
         form.reset( isEditMode ? {
             id: row.id ?? null,
+            budget_id: row.budget_id,
             date: safeDate(row.date), 
             category_id: String(row.category_id ?? ''),
             amount: String(row.amount ?? ''),
@@ -174,6 +180,7 @@ export const CreateEditExpenses = ({
             description: row.description ?? '',
         } : {
             id: null,
+            budget_id: 0,
             date: new Date(), 
             category_id: '',
             amount: '',

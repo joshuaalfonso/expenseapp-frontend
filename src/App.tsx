@@ -8,6 +8,7 @@ import { useAuthContext } from "./features/auth/useAuthContext"
 import { ProtectedRoute } from "./features/auth/ProtectedRoute"
 import { Budgets } from "./pages/Budgets"
 import { Users } from "./pages/Users"
+import { BudgetDetails } from "./pages/BudgetDetails"
 
 
 export const App = () => {
@@ -52,6 +53,14 @@ export const App = () => {
                     element={ 
                         // <ProtectedRoute> 
                             <Budgets /> 
+                        // </ProtectedRoute>
+                     } 
+                />
+                <Route 
+                    path="budgets/:id" 
+                    element={ 
+                        // <ProtectedRoute> 
+                            <BudgetDetails /> 
                         // </ProtectedRoute>
                      } 
                 />

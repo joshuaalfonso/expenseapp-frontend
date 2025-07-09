@@ -27,9 +27,9 @@ export const CategoriesList = () => {
         </Alert>
     )
 
-
     return (
         <>
+        
             <div className="mb-4 flex justify-end">
                 <CreateEditCategories 
                     dialogOpen={dialogOpen} 

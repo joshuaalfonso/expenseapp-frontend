@@ -1,105 +1,77 @@
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { EmojiPicker, EmojiPickerContent, EmojiPickerFooter, EmojiPickerSearch } from "@/components/ui/emoji-picker"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { zodResolver } from "@hookform/resolvers/zod"
+// import { DialogTrigger } from "@radix-ui/react-dialog"
+import { Loader2Icon } from "lucide-react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import {
-  EmojiPicker,
-  EmojiPickerSearch,
-  EmojiPickerContent,
-  EmojiPickerFooter,
-} from "@/components/ui/emoji-picker";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { useState } from "react"
-import { Loader2Icon } from "lucide-react"
-import type { CategoriesList } from "@/models/categories"
-import { useEditCategory } from "./useEditCategory"
-import { useCreateCategory } from "./useCreateCategory"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { AdminOnly } from "../auth/AdminOnly"
+import { useCreateBudget } from "./useCreateBudget"
+import type { BudgetList } from "@/models/budgets"
+import { useEditBudget } from "./useEditBudget"
+
 
 
 const formSchema = z.object({
     id: z.number().nullable(),
-    category_name: z.string().min(1, {
+    budget_name: z.string({
+        required_error: "This field is required.",
+    }),
+    budget_icon: z.string().min(1, {
         message: "This field is required."
     }),
-    category_icon: z.string().min(1, {
+    amount: z.string().min(1, {
         message: "This field is required."
     }),
-    is_default: z.number().optional(),
-    date_created: z.string().nullable()
 })
 
-interface createEditProps {
-    row?: CategoriesList,
+interface Props {
+    row?: BudgetList,
     dialogOpen: boolean,
     setDialogOpen: (open: boolean) => void
 }
 
-export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, setDialogOpen }: createEditProps) => {
+const formInitialState = {
+    id: null,
+    budget_name: '', 
+    budget_icon: '',
+    amount: '',
+}  
 
-    const { id: categoryId } = row;
+export const CreateEditBudget = ({row = {} as BudgetList, dialogOpen, setDialogOpen}: Props) => {
 
-    const isEditMode = Boolean(categoryId);
+    const { id } = row;
 
-    const [emojiOpen, setEmojiOpen] = useState(false);
+    const isEditMode = Boolean(id);
+
+    const [emojiOpen, setEmojiOpen] = useState(false);  
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: isEditMode ? {...row} : {
-            id: null,
-            category_name: "",
-            category_icon: "",
-            is_default: 0,
-            date_created: null,
-        }   
+        defaultValues: isEditMode ? {...row, amount: String(row.budget_amount)} : formInitialState
     })
 
-
-    const { createCategoryMutation, isCreating } = useCreateCategory();
-
-    const { editCategoryMutation, isUpdating } = useEditCategory();
+    const { createBudgetMutation, isCreating } = useCreateBudget();
+    const { editBudgetMutation, isUpdating } = useEditBudget();
 
     const isWorking = isCreating || isUpdating;
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-
-        const is_default = values.is_default ? 1 : 0;
-        
-        const data = {...values, is_default}
-
-        if (isEditMode) {
-            editCategoryMutation(
-                data,
-                {
-                    onSuccess: () => {
-                        form.reset({...values});
-                        setDialogOpen(false);
-                    }
-                }
-            )
-        } 
-        
-        else {
-            createCategoryMutation(
-                data,
+    function onSubmit(data: z.infer<typeof formSchema>) {
+        // createBudgetMutation
+        // createBudgetMutation(data)
+        const newBudget = {
+            ...data,
+            amount: Number(data.amount)
+        }
+        // console.log(newBudget)
+       
+        if (!isEditMode) {
+             createBudgetMutation(
+                newBudget,
                 {
                     onSuccess: () => {
                         form.reset();
@@ -107,38 +79,47 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                     }
                 }
             )
-        } 
-
+        } else {
+            editBudgetMutation(
+               newBudget,
+                {
+                    onSuccess: () => {
+                        form.reset({...newBudget, amount: String(newBudget.amount)});
+                        setDialogOpen(false);
+                    }
+                }
+            )
+        }
     }
 
     const handleDialogOpenChange = (open: boolean) => {
-        console.log('open')
         setDialogOpen(open);
-        form.reset(isEditMode ? { ...row } : {
-            id: null,
-            category_name: "",
-            category_icon: "",
-            date_created: null,
-        });
+        form.reset(
+            isEditMode ? {...row, amount: String(row.budget_amount)} : formInitialState
+        );
+        // console.log('open')
     }
 
-
     return (
-        <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
-            <form>
-                <DialogTrigger asChild>
-                    {!isEditMode && (
-                        <Button variant="default">
-                            <i className="fi fi-rr-plus-small flex text-xl"></i> Create
-                        </Button>
-                    )}
-                </DialogTrigger>
+        <>  
+            <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
+
+                    <DialogTrigger asChild>
+
+                        {!isEditMode && (
+                            <Button variant="default">
+                                <i className="fi fi-rr-plus-small flex text-xl"></i> Create
+                            </Button>
+                        )}
+
+                    </DialogTrigger>
 
                 <DialogContent 
-                    className="sm:max-w-[425px]"  
+                    className="sm:max-w-[425px]"
                 >
+                    {/* onOpenAutoFocus={(e) => e.preventDefault()} */}
                     <DialogHeader>
-                        <DialogTitle>Create Category</DialogTitle>
+                        <DialogTitle>Create Budget</DialogTitle>
                         <DialogDescription>
                     
                         </DialogDescription>
@@ -149,7 +130,23 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
 
                             <FormField
                                 control={form.control}
-                                name="category_icon"
+                                name="budget_name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Budget Name 
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input placeholder=""{...field} value={field.value ?? ''} tabIndex={-1}/>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="budget_icon"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Icon</FormLabel>
@@ -181,8 +178,8 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                                                         <EmojiPicker
                                                             className="h-[342px]"
                                                             onEmojiSelect={({ emoji }) => {
-                                                            setEmojiOpen(false);
-                                                            form.setValue('category_icon', emoji, {shouldValidate: true})
+                                                                setEmojiOpen(false);
+                                                                form.setValue('budget_icon', emoji, {shouldValidate: true})
                                                             }}
                                                         >
                                                             <EmojiPickerSearch />
@@ -198,47 +195,31 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                                 )}
                             />
 
+
                             <FormField
                                 control={form.control}
-                                name="category_name"
+                                name="amount"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Category Name</FormLabel>
+                                        <FormLabel>
+                                            Amount 
+                                            <span className="text-[var(--color-destructive)]">*</span>
+                                        </FormLabel>
                                         <FormControl>
-                                            <Input placeholder="" {...field} autoComplete="off" />
+                                            <Input type="number" placeholder="" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
-                            <AdminOnly>
-                                <FormField 
-                                    control={form.control}
-                                    name="is_default"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Default</FormLabel>
-                                            <div className="flex items-center gap-3">
-                                                <Checkbox 
-                                                    id="isDefault" 
-                                                    {...field} 
-                                                    checked={field.value === 1}
-                                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}/>
-                                                <Label htmlFor="isDefault"> Category for all users </Label>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </AdminOnly>
         
                             <DialogFooter>
-                                <DialogClose asChild>
-                                <Button variant="outline">Cancel</Button>
+                                <DialogClose asChild >
+                                    <Button variant="outline" >Cancel</Button>
                                 </DialogClose>
-                                <Button type="submit" disabled={isWorking || !form.formState.isDirty}>
-                                    {isWorking && <Loader2Icon className="animate-spin" />}
-                                    {isEditMode ? 'Apply changes' : 'Create'}
+                                <Button type="submit" disabled={isWorking || !form.formState.isDirty} >
+                                    { isWorking && <Loader2Icon className="animate-spin" /> }
+                                    { isEditMode ? 'Apply changes' : 'Create' }
                                 </Button>
                             </DialogFooter>
 
@@ -246,10 +227,11 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                     </Form>
                 
                 </DialogContent>
-            </form>
-        </Dialog>
+            </Dialog>
+        </>
     )
+    
+
+
+
 }
-
-
-

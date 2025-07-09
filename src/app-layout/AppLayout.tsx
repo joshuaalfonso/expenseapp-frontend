@@ -35,22 +35,22 @@ export const AppLayout = () => {
                             Expenses
                         </NavLink>
                     </li>
+                     <li>
+                        <NavLink to="/budgets">
+                            <i className="fi fi-rr-piggy-bank-budget flex "></i>
+                            Budgets
+                        </NavLink>
+                    </li>
                     <li>
                         <NavLink to="/categories">
                             <i className="fi fi-rr-tags flex "></i>
                             Categories
                         </NavLink>
                     </li>
-                    {/* <li>
-                        <NavLink to="/budgets">
-                            <i className="fi fi-rr-piggy-bank-budget flex "></i>
-                            Budgets
-                        </NavLink>
-                    </li> */}
                     <AdminOnly>
                         <li>
                             <NavLink to="/users">
-                                <i className="fi fi-rr-user flex "></i>
+                                <i className="fi fi-rr-users flex "></i>
                                 Users
                             </NavLink>
                         </li>

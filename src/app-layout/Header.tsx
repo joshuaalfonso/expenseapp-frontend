@@ -30,60 +30,20 @@ export const Header = () => {
             <nav className='flex items-center justify-between h-[50px] max-w-7xl mx-auto '>
                 <ToogleSidebar />
                 <div className='flex gap-2'>
-                    <img src="low-price.png" alt="Logo" width={35}/>
-                    <p className='flex items-center font-semibold xl:text-xl'>Expense <span>Tracker</span></p>
+                    <img src="low-price.png" alt="Logo" className="w-[30px] xl:w-[35px]"/>
+                    <p className='flex items-center font-semibold text-sm xl:text-xl'>Expense <span>Tracker</span></p>
                 </div>
                 <div className="flex gap-2 items-center">
 
                     <ModeToggle />
 
-                    {/* <Button 
-                        variant="ghost"
-                        onClick={handleLogout}
-                        className="size-9"
-                    >
-                        <LogOut />
-                    </Button> */}
-
                     <div>
                         {user && (
                             <>
-
-                                {/* <Popover>
-                                    <PopoverTrigger asChild className="cursor-pointer hover:ring-1 ring-[var(--color-primary)]">
-                                        <Avatar>
-                                            <AvatarImage src={user.user.picture}  />
-                                            <AvatarFallback>CN</AvatarFallback>
-                                        </Avatar>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-50" align="end">
-                                        <div className="grid gap-4">
-                                            <div className="space-y-1">
-                                                <h4 className="leading-none font-medium">{user.user.name}</h4>
-                                                <p className="max-w-40 text-muted-foreground text-xs overflow-hidden text-ellipsis">
-                                                    {user.user.email}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <Separator className="my-4" />
-
-                                         <DropdownMenuItem className="cursor-pointer" onSelect={(e) => {
-                                                e.preventDefault();
-                                                // setMenuOpen(false);
-                                                // setDialogOpen(true);
-                                            }} >
-                                                <i className="fi fi-rr-pencil flex"></i>
-                                                Edit
-                                            </DropdownMenuItem>
-                                    </PopoverContent>
-                                </Popover> */}
                                 <DropdownMenu>
-
-                                        
-                          
                                     <DropdownMenuTrigger asChild className="focus:outline-none focus:ring-0 focus:ring-transparent">
              
-                                        <Avatar className="cursor-pointer hover:ring-1 ring-[var(--color-primary)]">
+                                        <Avatar className="cursor-pointer hover:scale-110 duration-200 ease-out">
                                             <AvatarImage src={user.user.picture}  />
                                             <AvatarFallback>CN</AvatarFallback>
                                         </Avatar> 
@@ -102,16 +62,11 @@ export const Header = () => {
                                             </DropdownMenuItem>
                                             
                                         </DropdownMenuGroup>
-                                    </DropdownMenuContent>
-                           
+                                    </DropdownMenuContent>                       
                                 </DropdownMenu>
-                            </>
-                            
+                            </>      
                         )}
-                    </div>
-
-                    
-                    
+                    </div>             
                 </div>
             </nav>
         </header>

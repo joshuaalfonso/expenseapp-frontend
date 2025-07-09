@@ -1,14 +1,15 @@
 
 import { ExpensesRow } from "./ExpensesRow";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+// import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { CreateEditExpenses } from "./CreateEditExpenses";
 import { useCategories } from "../categories/useCategories";
 import { useMemo, useState } from "react";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { SortBy, type SortOptions } from "../../ui/SortBy";
-import { useExpenses } from "./useExpenses";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-import { AlertTriangleIcon } from "lucide-react";
+// import { useExpenses } from "./useExpenses";
+// import { Alert, AlertTitle } from "@/components/ui/alert";
+// import { AlertTriangleIcon } from "lucide-react";
+import type { PaginatedExpenseList } from "@/models/expenses";
 
 const options: SortOptions[] = [
     {
@@ -21,13 +22,19 @@ const options: SortOptions[] = [
     }
 ]
 
-export const ExpensesList = () => {
+interface Props {
+    paginatedData: PaginatedExpenseList,
+    page: number;
+    setPage: (page: number | ((prev: number) => number)) => void;
+}
+
+export const ExpensesList = ({paginatedData, page, setPage}: Props) => {
 
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
-    const [page, setPage] = useState<number>(1);
+    // const [page, setPage] = useState<number>(1);
 
-    const {paginatedData, isPending, error} = useExpenses(page);
+    // const {paginatedData, isPending, error} = useExpenses(page);
 
     const visiblePages = useMemo(() => {
         if (!paginatedData) return [];
@@ -52,21 +59,6 @@ export const ExpensesList = () => {
 
     const displayText = `Showing ${totalResults === 0 ? 0 : start} to ${end} of ${totalResults} results`;
     
-
-    if (isPending) return (
-        <div className="flex justify-center">
-            <LoadingSpinner />
-        </div>
-    );
-
-    if ( !paginatedData || error) return (
-        <Alert className="bg-[var(--color-destructive)]/10 text-[var(--color-destructive)] border-[var(--color-destructive)]/10">
-            <AlertTriangleIcon />
-            <AlertTitle>
-             Sorry, something went wrong while loading your expenses.
-            </AlertTitle>
-        </Alert>
-    );
     // console.log('expense list init')
 
     return (
