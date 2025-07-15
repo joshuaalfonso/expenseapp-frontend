@@ -1,15 +1,17 @@
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { BudgetHeader } from "@/features/budget-details/BudgetDetails";
+import { Separator } from "@/components/ui/separator";
+import { BudgetHeader } from "@/features/budget-details/BudgeHeader";
 import { BudgetExpensesList } from "@/features/budget-details/BudgetExpensesList";
-import { useBudgetDetails } from "@/features/budgets/useBudgetDetails";
+import { useBudgetDetails } from "@/features/budget-details/useBudgetDetails";
+import { BackButton } from "@/ui/BackButton";
+import { formatNumber } from "@/utils/formatNumber";
 import { AlertTriangleIcon } from "lucide-react";
-import { useNavigate, useParams } from "react-router"
+import {  useParams } from "react-router"
 
 
 export const BudgetDetails = () => {
 
-    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -40,13 +42,32 @@ export const BudgetDetails = () => {
             <h1 className="text-xl font-semibold mb-10">Budget Details</h1>
 
             <div className="flex">
-                <span onClick={() => navigate(-1)} className="group flex items-center gap-2 mb-4 cursor-pointer">
-                    <i className="fi fi-rr-arrow-left grid group-hover:-translate-x-1  duration-200 ease-in-out"></i> 
-                    <small>Back</small>
-                </span>
+                <BackButton />
             </div>
 
             <BudgetHeader budgetDetails={budgetdetails.data}/>
+
+            <Separator className="my-6"/>
+
+            <div>
+                <div className="grid grid-cols-3 text-center my-4">
+                    <div>
+                        <p className="opacity-60 text-xs">Allocated</p>
+                        <p className="font-semibold text-xl">{formatNumber(budgetdetails?.data.budget_amount)}</p>
+                    </div>
+                    <div>
+                        <p className="opacity-60 text-xs">Spent</p>
+                        <p className="font-semibold text-xl">{formatNumber(budgetdetails?.data.total_expense_amount)}</p>
+                    </div>
+                   <div>
+                        <p className="opacity-60 text-xs">Remaining</p>
+                        <p className="font-semibold text-xl">{formatNumber(budgetdetails?.data.budget_amount - budgetdetails?.data.total_expense_amount)}</p>
+                    </div>
+                </div>
+                {/* <Progress value={33} /> */}
+            </div>
+
+             <Separator className="my-6"/>
 
             <h1 className="mb-4 opacity-60">Transactions</h1>
 

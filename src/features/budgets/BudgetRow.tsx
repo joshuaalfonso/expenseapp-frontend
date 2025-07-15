@@ -7,16 +7,17 @@ import { Button } from "@/components/ui/button";
 import { EllipsisVertical } from "lucide-react";
 import { Link } from "react-router";
 import { useDeleteBudget } from "./useDeleteBudget";
+import { formatNumber } from "@/utils/formatNumber";
 
 
-export const BudgetRow = ({row}: {row: BudgetList}) => {
+export const BudgetRow = ({ row }: { row: BudgetList }) => {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    const percentage = row.budget_amount > 0 
-    ? (row.total_expense_amount / row.budget_amount) * 100 
-    : 0;
+    const percentage = row.budget_amount > 0
+        ? (row.total_expense_amount / row.budget_amount) * 100
+        : 0;
 
     const { deleteBudgetMutation, isDeleting } = useDeleteBudget();
 
@@ -25,7 +26,7 @@ export const BudgetRow = ({row}: {row: BudgetList}) => {
     // console.log('budget row init')
 
     return (
-        <div 
+        <div
             className="flex flex-col gap-4 border border-[var(--color-border)] rounded-[var(--radius-sm)] p-4"
         >
             <div className="flex items-center gap-4">
@@ -40,32 +41,32 @@ export const BudgetRow = ({row}: {row: BudgetList}) => {
                     ₱ {row.budget_amount}
                 </div> */}
 
-                <DropdownMenu 
-                    open={menuOpen} 
+                <DropdownMenu
+                    open={menuOpen}
                     onOpenChange={setMenuOpen}
                 >
                     <DropdownMenuTrigger asChild className="focus:outline-none focus:ring-0 focus:ring-transparent">
-                    
+
                         <Button variant="ghost" disabled={isDeleting}>
                             <EllipsisVertical />
                         </Button>
-                        
+
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-40" align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuGroup>
                             <Link to={`/budgets/${row.id}`} >
-                                <DropdownMenuItem 
-                                    className="cursor-pointer" 
+                                <DropdownMenuItem
+                                    className="cursor-pointer"
                                     onSelect={(e) => {
                                         e.preventDefault();
                                         setMenuOpen(false);
-                                    }} 
-                                    >
-                                        <div className="flex items-center gap-2"> 
-                                            <i className="fi fi-rr-eye flex"></i>
-                                            View Details
-                                        </div>
+                                    }}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <i className="fi fi-rr-eye flex"></i>
+                                        View Details
+                                    </div>
                                 </DropdownMenuItem>
                             </Link>
                             <DropdownMenuItem className="cursor-pointer" onSelect={(e) => {
@@ -76,13 +77,13 @@ export const BudgetRow = ({row}: {row: BudgetList}) => {
                                 <i className="fi fi-rr-pencil flex"></i>
                                 Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer"  
+                            <DropdownMenuItem className="cursor-pointer"
                                 onSelect={(e) => {
                                     e.preventDefault();
                                     setMenuOpen(false);
                                     // setAlertOpen(true);
                                     deleteBudgetMutation(row.id || 0)
-                                }} 
+                                }}
                             >
                                 <i className="fi fi-rr-trash flex"></i>
                                 Delete
@@ -90,24 +91,24 @@ export const BudgetRow = ({row}: {row: BudgetList}) => {
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
-                
+
             </div>
 
             <div className="space-y-2">
                 <div className="text-xs font-medium opacity-50  flex justify-between items-center ">
-                    <span>₱ {row.total_expense_amount} Spend</span>
-                    <span>₱ { row.budget_amount - row.total_expense_amount } Remaining</span>
+                    <span>₱ {formatNumber(row.total_expense_amount)} Spend</span>
+                    <span>₱ {formatNumber(row.budget_amount - row.total_expense_amount)} Remaining</span>
                 </div>
-                <Progress value={percentage}/>
+                <Progress value={percentage} />
             </div>
-            
-            <CreateEditBudget 
-                row={row} 
-                dialogOpen={dialogOpen} 
-                setDialogOpen={setDialogOpen}
-            /> 
 
-            
+            <CreateEditBudget
+                row={row}
+                dialogOpen={dialogOpen}
+                setDialogOpen={setDialogOpen}
+            />
+
+
         </div>
     )
 }

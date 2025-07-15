@@ -9,10 +9,13 @@ interface Props {
 export const BudgetHeader = ({budgetDetails}: Props)  => {
 
     const date = budgetDetails.date_created ? format(new Date(budgetDetails.date_created), "MMM d, yyyy") : null;
+    const progress = (budgetDetails?.total_expense_amount / budgetDetails.budget_amount) * 100;
+    const progressRounded = Math.round(progress);
 
     return (
 
-        <div className="p-6 flex items-center justify-between bg-[var(--color-primary)]/5 rounded-[var(--radius-sm)] w-full mb-10">
+        // <div className="p-6 flex items-center justify-between bg-[var(--color-primary)]/5 rounded-[var(--radius-sm)] w-full mb-10">
+        <div className="flex items-center justify-between rounded-[var(--radius-sm)] w-full">
 
             <div className="flex items-center gap-2">
                 <span className="text-3xl">{budgetDetails?.budget_icon}</span>
@@ -23,7 +26,7 @@ export const BudgetHeader = ({budgetDetails}: Props)  => {
             </div>
 
             <div>
-                <span className="text-xl text-[var(--color-primary)]">₱ {budgetDetails?.budget_amount}</span>
+                <span className="text-xl font-semibold text-[var(--color-primary)]">{progressRounded}%</span>
             </div>
 
         </div>

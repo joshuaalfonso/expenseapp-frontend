@@ -33,6 +33,7 @@ export interface Data {
   budget_name: string
   budget_icon: string
   budget_amount: number
+  total_expense_amount: number
   date_created: string
 }
 

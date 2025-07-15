@@ -4,7 +4,8 @@ import { useState } from "react"
 import SortSelect from "./SortBy"
 import { format } from "date-fns"
 import { formatNumber } from "@/utils/formatNumber"
-// import { useCategories } from "../categories/useCategories"
+import { CreateEditBudgetExpense } from "./CreateEditBudgetExpense"
+import { useCategories } from "../categories/useCategories"
 
 interface Props {
     budgetExpenses: Expense[],
@@ -26,7 +27,11 @@ export const BudgetExpensesList = ({budgetExpenses, budget_id}: Props) => {
 
     const [sortValue, setSortValue] = useState("desc");
 
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
     // const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+    const { data: categories } = useCategories();
 
     const handleSortChange = (value: string) => {
         setSortValue(value);
@@ -34,13 +39,7 @@ export const BudgetExpensesList = ({budgetExpenses, budget_id}: Props) => {
 
     const budgetId = budget_id || 0;
 
-    console.log(budgetId)
-
-    // const { 
-    //     data: categories, 
-    //     isPending: isCategoriesLoading, 
-    //     error: categoriesError 
-    // } = useCategories();
+    // console.log(budgetId)
 
     const filteredExpenses = [...budgetExpenses].sort((a, b) => {
 
@@ -52,14 +51,17 @@ export const BudgetExpensesList = ({budgetExpenses, budget_id}: Props) => {
         : dateB - dateA;
     })
 
-    if (!budgetExpenses || budgetExpenses.length === 0) return <p className="text-center py-6">No transactions found.</p>
+    // if (!budgetExpenses || budgetExpenses.length === 0) return <p className="text-center py-6">No transactions found.</p>
 
     return (
         <>
             <div>
 
-                {budgetExpenses.length > 1 && (
+                {/* {budgetExpenses.length > 1 && ( */}
 
+                {/* // )} */}
+
+                <div className="flex justify-between">
                     <SortSelect
                         options={options}
                         value={sortValue}
@@ -68,7 +70,15 @@ export const BudgetExpensesList = ({budgetExpenses, budget_id}: Props) => {
                         placeholder="Choose an option"
                     />
 
-                )}
+                    <CreateEditBudgetExpense 
+                        dialogOpen={dialogOpen}
+                        setDialogOpen={setDialogOpen}
+                        budgetId={budgetId}
+                        categories={categories}
+                    />
+                </div>
+
+                {!budgetExpenses || budgetExpenses.length === 0 && <p className="text-center py-10">No transactions found.</p>}
 
                 
                 {/* <ul className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"> */}
