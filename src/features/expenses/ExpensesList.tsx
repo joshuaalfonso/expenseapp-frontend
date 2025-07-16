@@ -74,7 +74,8 @@ export const ExpensesList = () => {
             )}
             
 
-            <ul className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]">
+            {/* <ul className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]"> */}
+            <ul className="grid gap-4 grid-cols-1 md:grid-cols-2">
                 {paginatedData?.data?.map(row => (
                     <ExpensesRow 
                         row={row} 
@@ -90,6 +91,7 @@ export const ExpensesList = () => {
                 count={paginatedData?.total || 0}
                 pageCount={paginatedData?.totalPages || 0}
             />
+            
         </>
     )
 }

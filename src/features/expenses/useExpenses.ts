@@ -27,6 +27,8 @@ export const useExpenses = () => {
     useEffect(() => {
         if (!paginatedData) return;
 
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         if (page < count) {
             queryClient.prefetchQuery({
                 queryKey: ['expenses', page + 1, sortValue],

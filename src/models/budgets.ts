@@ -5,6 +5,8 @@
 
 // id, user_id, budget_name, budget_icon, amount
 
+import type { ExpensesList } from "./expenses"
+
 export interface BudgetList {
     id: number | null,
     budget_name: string,
@@ -25,7 +27,7 @@ export interface BudgetPost {
 
 export interface BudgetDetails {
   data: Data
-  expenses: Expense[]
+  expenses: ExpensesList[]
 }
 
 export interface Data {
@@ -37,14 +39,14 @@ export interface Data {
   date_created: string
 }
 
-export interface Expense {
-  id: number
-  budget_id: number
-  category_id: number
-  date: string
-  category_icon: string
-  category_name: string
-  description: string
-  amount: number
-  date_created: string
-}
+// export interface Expense {
+//   id: number
+//   budget_id: number
+//   category_id: number
+//   date: string
+//   category_icon: string
+//   category_name: string
+//   description: string
+//   amount: number
+//   date_created: string
+// }

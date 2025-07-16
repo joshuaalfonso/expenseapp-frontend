@@ -30,7 +30,9 @@ const formSchema = z.object({
         message: "This field is required."
     }),
     oldAmount: z.string(),
-    description: z.string()
+    description: z.string().min(3, {
+        message: "Minimum at least 3 character."
+    })
 })
 
 interface Props {
@@ -215,6 +217,7 @@ export const CreateEditExpenses = ({
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
                             <FormField
+                            
                                 control={form.control}
                                 name="date"
                                 render={({ field }) => (
@@ -223,9 +226,9 @@ export const CreateEditExpenses = ({
                                             Expense Date 
                                             <span className="text-[var(--color-destructive)]">*</span>
                                         </FormLabel>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <FormControl tabIndex={-1} >
+                                        <Popover >
+                                            <PopoverTrigger asChild >
+                                                <FormControl >
                                                     <Button
                                                         variant={"outline"}
                                                         className={cn(
@@ -242,7 +245,7 @@ export const CreateEditExpenses = ({
                                                     </Button>
                                                 </FormControl>
                                             </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0" align="start">
+                                            <PopoverContent className="w-auto p-0" align="start" tabIndex={-1}>
                                                 <Calendar
                                                     mode="single"
                                                     selected={field.value}
@@ -254,6 +257,23 @@ export const CreateEditExpenses = ({
                                                 />
                                             </PopoverContent>
                                         </Popover>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Description 
+                                            <span className="text-[var(--color-destructive)]">*</span>
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input placeholder=""{...field} value={field.value ?? ''} />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -301,23 +321,6 @@ export const CreateEditExpenses = ({
                                         <FormLabel>Amount <span className="text-[var(--color-destructive)]">*</span></FormLabel>
                                         <FormControl>
                                             <Input type="number" placeholder="" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="description"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            Description 
-                                            <span className="opacity-70 text-xs">(Optional)</span>
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input placeholder=""{...field} value={field.value ?? ''} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
