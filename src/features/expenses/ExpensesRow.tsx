@@ -7,7 +7,6 @@ import type { CategoriesList } from "@/models/categories"
 import { formatNumber } from "@/utils/formatNumber"
 import { useDeleteExpense } from "./useDeleteExpense"
 import { DeleteExpenseConfirmation } from "./DeleteExpenseConfimation"
-import { Separator } from "@/components/ui/separator"
 import DropdownActionMenu from "@/ui/DropdownActionMenu"
 
 
@@ -48,7 +47,7 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
         <li className="border border-[var(--color-border)] py-2 px-4 flex items-center justify-between gap-2 rounded-[var(--radius-sm)]">
 
             <div className="flex gap-3 flex-1">
-                <div className="text-3xl flex items-center justify-center w-11">
+                <div className="text-3xl flex items-center justify-center w-11 ">
                     {row.category_icon}
                 </div>
                 <div className="flex flex-col gap-1">
@@ -56,11 +55,12 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
 
                     <div className="flex items-center gap-3">
                         <span className="text-xs opacity-70">
-                            {row.category_name}
-                        </span>
-                        <Separator orientation="vertical" />
-                        <span className="text-xs opacity-70">
                             {(isItToday ? 'Today' : format(new Date(row.date), "MMM d, yyyy")) || "No date"}
+                        </span>
+                        {/* <Separator orientation="vertical" /> */}
+                        <span className="opacity-70">∙</span>
+                          <span className="text-xs opacity-70">
+                            {row.category_name}
                         </span>
                     </div>
                 </div>

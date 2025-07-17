@@ -8,7 +8,7 @@
 import type { ExpensesList } from "./expenses"
 
 export interface BudgetList {
-    id: number | null,
+    id: number,
     budget_name: string,
     budget_icon: string,
     budget_amount: number,
