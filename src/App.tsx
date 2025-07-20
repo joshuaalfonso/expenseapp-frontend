@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router"
-import { AppLayout } from "./app-layout/AppLayout"
+import { AppLayout } from "./layout/AppLayout"
 import { Dashboard } from "./pages/Dashboard"
 import { Expenses } from "./pages/Expenses"
 import { Categories } from "./pages/Categories"

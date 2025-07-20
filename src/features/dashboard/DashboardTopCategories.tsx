@@ -3,7 +3,7 @@
 import {
   Card,
   CardContent,
-  CardFooter,
+//   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -15,7 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import type { TopCategories } from "@/models/dashboard"
-import { formatNumber } from "@/utils/formatNumber"
+// import { formatNumber } from "@/utils/formatNumber"
 import { Pie, PieChart } from "recharts"
 
 
@@ -49,9 +49,9 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
 
     // console.log(chartConfig)
 
-    const highestEntry = topCategories.reduce((max, current) => {
-        return current.total > max.total ? current : max;
-    }, topCategories[0]);
+    // const highestEntry = topCategories.reduce((max, current) => {
+    //     return current.total > max.total ? current : max;
+    // }, topCategories[0]);
 
 
     return (
@@ -64,7 +64,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
                     config={chartConfig}
-                    className=" mx-auto aspect-square max-h-[250px] [&_.recharts-pie-label-text]:fill-foreground"
+                    className=" mx-auto aspect-square max-h-[300px] [&_.recharts-pie-label-text]:fill-foreground"
                 >
                     {/* aspect-square */}
                     <PieChart>
@@ -81,7 +81,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                         <Pie
                             data={chartData}
                             dataKey="total"
-                            innerRadius={62}
+                            innerRadius={70}
                             paddingAngle={5}
                             
                         >
@@ -94,7 +94,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                 </ChartContainer>
             </CardContent>
 
-            { highestEntry && (
+            {/* { highestEntry && (
                 <CardFooter className="flex-col gap-2 text-sm">
                     <div className="flex items-center gap-2 leading-none font-medium">
                         The highest entry is {highestEntry.category_name}, totaling {formatNumber(+highestEntry.total)}.
@@ -103,7 +103,7 @@ export function DashboardTopCategories({topCategories}: {topCategories: TopCateg
                         Showing the most entries in each category for the year.
                     </div>
                 </CardFooter>
-            )}
+            )} */}
             
         </Card>
     )

@@ -1,5 +1,5 @@
 
-import type { CategoriesList, CategoriesPost } from "@/models/categories";
+import type { CategoriesList, CategoriesPost, PaginatedCategory } from "@/models/categories";
 // import axios from "axios";
 import axios from './axiosInstance';
 
@@ -12,6 +12,11 @@ export const fetchCategories = async () => {
     const { data } = await axios.get(`${baseUrl}${tableName}`);
     return data as CategoriesList[]
 
+}
+
+export const fetchPaginatedCategories = async (page: number) => {
+    const { data } = await axios.get(`${baseUrl}${tableName}/${'page/' + page}`);
+    return data as PaginatedCategory;
 }
 
 export const createCategories = async (category: CategoriesPost) => {

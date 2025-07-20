@@ -1,5 +1,5 @@
-import { ModeToggle } from "@/components/mode-toggle"
-import { ToogleSidebar } from "./ToggleSidebar"
+import { ModeToggle } from "@/ui/ModeToggle"
+import { ToogleSidebar } from "../ui/ToggleSidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useLogout } from "@/features/auth/useLogout"
 import { useAuthContext } from "@/features/auth/useAuthContext"

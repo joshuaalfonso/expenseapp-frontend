@@ -4,9 +4,6 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router"
 
 
-
-
-
 export const useExpenses = () => {
 
     const queryClient = useQueryClient();

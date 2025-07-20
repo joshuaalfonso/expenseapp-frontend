@@ -1,6 +1,6 @@
 // components/ThemeToaster.tsx
 
-import { useTheme } from '@/components/theme-provider';
+import { useTheme } from '@/context/theme-provider';
 import { Toaster } from '@/components/ui/sonner' // or wherever Toaster is imported from
 
 export const ThemeToaster = () => {

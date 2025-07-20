@@ -6,9 +6,10 @@ import {  useState } from "react";
 import { SortBy, type SortOptions } from "../../ui/SortBy";
 import { useExpenses } from "./useExpenses";
 import { PaginationUI    } from "@/ui/PaginationUI";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { LoadingSpinner } from "@/ui/LoadingSpinner";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangleIcon } from "lucide-react";
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 const options: SortOptions[] = [
@@ -76,15 +77,24 @@ export const ExpensesList = () => {
 
             {/* <ul className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]"> */}
             <ul className="grid gap-4 grid-cols-1 md:grid-cols-2">
-                {paginatedData?.data?.map(row => (
-                    <ExpensesRow 
-                        row={row} 
-                        key={row.id}
-                        categories={categories || []}
-                        isCategoriesLoading={isCategoriesLoading}
-                        categoriesError={categoriesError} 
-                    />
-                ))}
+                <AnimatePresence >
+                    {paginatedData?.data?.map((row, index) => (
+                        <motion.div
+                            key={row.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.02 }}
+                            >
+
+                            <ExpensesRow 
+                                row={row} 
+                                categories={categories || []}
+                                isCategoriesLoading={isCategoriesLoading}
+                                categoriesError={categoriesError} 
+                                />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
             </ul>
 
             <PaginationUI 

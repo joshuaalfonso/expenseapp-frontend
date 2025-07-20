@@ -2,7 +2,7 @@
 import { Navigate } from "react-router";
 import { useAuthContext } from "./useAuthContext";
 import type { ReactNode } from "react";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { LoadingSpinner } from "@/ui/LoadingSpinner";
 
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const { user, loading } = useAuthContext();

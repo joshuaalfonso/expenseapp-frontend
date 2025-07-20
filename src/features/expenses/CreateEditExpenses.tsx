@@ -279,19 +279,20 @@ export const CreateEditExpenses = ({
                                 )}
                             />
 
+
                             <FormField
                                 control={form.control}
                                 name="category_id"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Category <span className="text-[var(--color-destructive)]">*</span></FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
+                                        <Select onValueChange={field.onChange} defaultValue={String(field.value)} >
                                             <FormControl>
                                             <SelectTrigger className="w-full" disabled={isCategoriesLoading} >
                                                 <SelectValue placeholder={isCategoriesLoading ? 'Loading...' : 'Select'}  />
                                             </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent>
+                                            <SelectContent style={{ maxHeight: '300px', overflowY: 'auto' }}>
                                                 {categories?.map(category => (
                                                     <SelectItem 
                                                         key={category.id} 

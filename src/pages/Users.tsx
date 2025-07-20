@@ -1,8 +1,9 @@
-import { LoadingSpinner } from "@/components/LoadingSpinner"
+import { LoadingSpinner } from "@/ui/LoadingSpinner"
 import { Alert, AlertTitle } from "@/components/ui/alert"
 import { fetchUsers } from "@/services/apiUsers"
 import { useQuery } from "@tanstack/react-query"
 import { AlertTriangleIcon } from "lucide-react"
+import { motion } from "framer-motion";
 
 
 
@@ -37,8 +38,14 @@ export const Users = () => {
 
             <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
 
-                {users?.map((item) => (
-                    <div key={item.id} className="flex flex-col items-center justify-center gap-4 border border-[var(--color-border)] p-4 rounded-[var(--radius-sm)] w-full">
+                {users?.map((item, index) => (
+                    <motion.div 
+                        key={item.id} 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.04 }}
+                        className="flex flex-col items-center justify-center gap-4 border border-[var(--color-border)] p-4 rounded-[var(--radius-sm)] w-full"
+                    >
                         <img 
                             className="rounded-full"
                             src={item.picture} 
@@ -46,7 +53,7 @@ export const Users = () => {
                         />
                         <span className="text-xl">{item.name}</span>
                         <small className="opacity-60">{item.email}</small>
-                    </div>
+                    </motion.div>
                 ))}
 
            </div>

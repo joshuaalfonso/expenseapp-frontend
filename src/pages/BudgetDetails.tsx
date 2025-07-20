@@ -1,4 +1,4 @@
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { LoadingSpinner } from "@/ui/LoadingSpinner";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { BudgetHeader } from "@/features/budget-details/BudgeHeader";

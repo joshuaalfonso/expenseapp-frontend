@@ -31,7 +31,7 @@ import type { CategoriesList } from "@/models/categories"
 import { useEditCategory } from "./useEditCategory"
 import { useCreateCategory } from "./useCreateCategory"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
+// import { Label } from "@/components/ui/label"
 import { AdminOnly } from "../auth/AdminOnly"
 
 
@@ -43,6 +43,7 @@ const formSchema = z.object({
     category_icon: z.string().min(1, {
         message: "This field is required."
     }),
+    description: z.string(),
     is_default: z.number().optional(),
     date_created: z.string().nullable()
 })
@@ -67,6 +68,7 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
             id: null,
             category_name: "",
             category_icon: "",
+            description: "",
             is_default: 0,
             date_created: null,
         }   
@@ -118,6 +120,7 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
             id: null,
             category_name: "",
             category_icon: "",
+            description: "",
             date_created: null,
         });
     }
@@ -152,7 +155,10 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                                 name="category_icon"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Icon</FormLabel>
+                                        <FormLabel>
+                                            Icon
+                                            <span className="text-[var(--color-destructive)]">*</span>
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="flex gap-2 max-h-[400px] overflow-y-auto">
                                                 <Input 
@@ -203,7 +209,24 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                                 name="category_name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Category Name</FormLabel>
+                                        <FormLabel>
+                                            Name
+                                            <span className="text-[var(--color-destructive)]">*</span>
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="" {...field} autoComplete="off" />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Description</FormLabel>
                                         <FormControl>
                                             <Input placeholder="" {...field} autoComplete="off" />
                                         </FormControl>
@@ -218,14 +241,14 @@ export const CreateEditCategories = ({row = {} as CategoriesList,dialogOpen, set
                                     name="is_default"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Default</FormLabel>
+                                            <FormLabel>Default <span className="opacity-60 text-xs">(for all users)</span></FormLabel>
                                             <div className="flex items-center gap-3">
                                                 <Checkbox 
                                                     id="isDefault" 
                                                     {...field} 
                                                     checked={field.value === 1}
                                                     onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}/>
-                                                <Label htmlFor="isDefault"> Category for all users </Label>
+                                                {/* <Label htmlFor="isDefault"> Category for all users </Label> */}
                                             </div>
                                         </FormItem>
                                     )}

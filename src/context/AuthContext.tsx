@@ -59,7 +59,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         dispatch({ type: 'SET_LOADING', payload: false }); // Done checking
     }, [])
 
-    console.log('AuthState :', state);
+    // console.log('AuthState :', state);
 
     return (
         <AuthContext.Provider value={{...state, dispatch}}>
