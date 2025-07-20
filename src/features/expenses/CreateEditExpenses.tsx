@@ -300,7 +300,7 @@ export const CreateEditExpenses = ({
                                                         value={String(category.id)} 
                                                         className="cursor-pointer"
                                                     >
-                                                        {category.category_icon} {category.category_name}
+                                                        <span className="w-5">{category.category_icon}</span> {category.category_name}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>

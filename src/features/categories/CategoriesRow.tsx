@@ -29,7 +29,7 @@ export const CategoriesRow = ({row}: {row: CategoriesList}) => {
         )
     }
 
-    const average = row.total_expense === 0 ? '-' : Math.round(row.total_expense / row.total_entries);
+    const average = row.total_expense === 0 ? '-' : formatNumber(Math.round(row.total_expense / row.total_entries));
     const totalSpent = row.total_expense === 0 ? '-' : formatNumber(row.total_expense);
     const totalEntries = row.total_entries === 0 ? '-' : formatNumber(row.total_entries);
     const description = row.description ? row.description : '-'; 
@@ -111,12 +111,16 @@ export const CategoriesRow = ({row}: {row: CategoriesList}) => {
                     <span>{totalSpent}</span>
                     <span className="text-xs opacity-60">Total Spent</span>
                 </div>
-                <Separator orientation="vertical" />
+               <div>
+                 <Separator orientation="vertical" />
+               </div>
                 <div className="flex flex-col">
                     <span>{totalEntries}</span>
                     <span className="text-xs opacity-60">Entries</span>
                 </div>
-                <Separator orientation="vertical" />
+                <div>
+                 <Separator orientation="vertical" />
+                </div>
                 <div className="flex flex-col">
                     <span>{average}</span>
                     <span className="text-xs opacity-60">Average</span>
