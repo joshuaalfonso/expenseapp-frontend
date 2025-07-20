@@ -113,13 +113,13 @@ export const CreateEditExpenses = ({
 
         console.log(newExpense)
 
-        const baseExpense = {
-            ...data,
-            date: formattedDate,
-            category_id: formattedCategory,
-            amount: formattedAmount,
-            oldAmount: formattedOldAmount
-        };
+        // const baseExpense = {
+        //     ...data,
+        //     date: formattedDate,
+        //     category_id: formattedCategory,
+        //     amount: formattedAmount,
+        //     oldAmount: formattedOldAmount
+        // };
 
 
         if (isEditMode) {
@@ -135,37 +135,37 @@ export const CreateEditExpenses = ({
         } 
         
         else {
-            // createExpenseMutattion(
-            //     newExpense,
-            //     {
-            //         onSuccess: () => {
-            //             setDialogOpen(false);
-            //             form.reset();
-            //         }
-            //     }
-            // )
+            createExpenseMutattion(
+                newExpense,
+                {
+                    onSuccess: () => {
+                        setDialogOpen(false);
+                        form.reset();
+                    }
+                }
+            )
 
             //  Loop to create 100 variations of the expense
-            for (let i = 0; i < 100; i++) {
-                const modifiedExpense = {
-                    ...baseExpense,
-                    amount: formattedAmount + i, // Make the amount slightly different each time
-                    description: `Seeded expense #${i + 1}`,
-                    date: format(
-                        new Date(new Date(formattedDate).getTime() - i * 86400000),
-                        'yyyy-MM-dd'
-                    ) // Go back one day per entry
-                };
+            // for (let i = 0; i < 100; i++) {
+            //     const modifiedExpense = {
+            //         ...baseExpense,
+            //         amount: formattedAmount + i, // Make the amount slightly different each time
+            //         description: `Seeded expense #${i + 1}`,
+            //         date: format(
+            //             new Date(new Date(formattedDate).getTime() - i * 86400000),
+            //             'yyyy-MM-dd'
+            //         ) // Go back one day per entry
+            //     };
 
-                createExpenseMutattion(modifiedExpense, {
-                    onSuccess: () => {
-                        if (i === 200) {
-                            setDialogOpen(false);
-                            form.reset();
-                        }
-                    }
-                });
-            }
+            //     createExpenseMutattion(modifiedExpense, {
+            //         onSuccess: () => {
+            //             if (i === 200) {
+            //                 setDialogOpen(false);
+            //                 form.reset();
+            //             }
+            //         }
+            //     });
+            // }
 
         } 
 
