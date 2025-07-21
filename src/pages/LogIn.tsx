@@ -1,10 +1,10 @@
 
-// import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 // import { Progress } from '@/components/ui/progress';
 import { useLogin } from '@/features/auth/useLogin';
 import { ModeToggle } from '@/ui/ModeToggle';
-import { Loader2Icon } from 'lucide-react';
+import { Loader2Icon, ShieldAlertIcon } from 'lucide-react';
 
 export const LogIn = () => {
 
@@ -43,6 +43,15 @@ export const LogIn = () => {
                                 Sign in with Google 
                         </Button>
                     </div>
+
+                    {error && (
+                        <Alert variant='destructive'>
+                            <ShieldAlertIcon />
+                            <AlertTitle>
+                                {error}
+                            </AlertTitle>
+                        </Alert>
+                    )}
 
 
                     {/* <div className='bg-[var(--color-primary)]/3  mt-20 p-4'>
