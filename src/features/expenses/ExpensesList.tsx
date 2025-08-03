@@ -10,6 +10,7 @@ import { LoadingSpinner } from "@/ui/LoadingSpinner";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangleIcon } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
+import { NoDataFound } from "@/ui/NoDataFound";
 
 
 const options: SortOptions[] = [
@@ -53,6 +54,7 @@ export const ExpensesList = () => {
         </Alert>
     );
 
+
     return (
         <>
             <div className="flex justify-between gap-4 mb-4">
@@ -69,9 +71,7 @@ export const ExpensesList = () => {
             </div>
 
             {paginatedData?.data?.length === 0 && (
-                 <div className="h-[200px] grid place-items-center bg-[var(--color-input]) rounded-[var(--radius-sm)]">
-                    <p className="text-center col-span-full opacity-70">No expenses found.</p>
-                </div>
+                 <NoDataFound />
             )}
             
 

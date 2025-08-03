@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import { useDeleteBudget } from "./useDeleteBudget";
 import { formatNumber } from "@/utils/formatNumber";
 import DropdownActionMenu from "@/ui/DropdownActionMenu";
-import { DeleteExpenseConfirmation } from "../expenses/DeleteExpenseConfimation";
+import { DeleteConfirmationDialog } from "@/ui/DeleteConfirmationDialog";
 
 
 export const BudgetRow = ({ row }: { row: BudgetList }) => {
@@ -53,7 +53,7 @@ export const BudgetRow = ({ row }: { row: BudgetList }) => {
                     ₱ {row.budget_amount}
                 </div> */}
 
-                <DeleteExpenseConfirmation 
+                <DeleteConfirmationDialog 
                     open={alertOpen}
                     onOpenChange={setAlertOpen}
                     onDelete={handeBudgetDelete}

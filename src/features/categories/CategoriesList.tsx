@@ -8,6 +8,7 @@ import { AlertTriangleIcon } from "lucide-react";
 import { usePaginatedCategories } from "./usePaginatedCategories";
 import { PaginationUI } from "@/ui/PaginationUI";
 import { motion } from "framer-motion";
+import { NoDataFound } from "@/ui/NoDataFound";
 
 
 export const CategoriesList = () => {
@@ -32,6 +33,8 @@ export const CategoriesList = () => {
         </Alert>
     )
 
+    if (paginatedCategories?.data?.length === 0) return <NoDataFound />
+ 
     return (
         <>
         

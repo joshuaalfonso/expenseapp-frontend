@@ -6,8 +6,8 @@ import { CreateEditExpenses } from "./CreateEditExpenses"
 import type { CategoriesList } from "@/models/categories"
 import { formatNumber } from "@/utils/formatNumber"
 import { useDeleteExpense } from "./useDeleteExpense"
-import { DeleteExpenseConfirmation } from "./DeleteExpenseConfimation"
 import DropdownActionMenu from "@/ui/DropdownActionMenu"
+import { DeleteConfirmationDialog } from "@/ui/DeleteConfirmationDialog"
 
 
 interface Props {
@@ -44,14 +44,21 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
     // console.log('Expense row :' + row.id)
 
     return (
-        <li className="border border-[var(--color-border)] py-2 px-4 flex items-center justify-between gap-2 rounded-[var(--radius-sm)]">
+        <li 
+            className="border border-[var(--color-border)] py-2 px-4 flex items-center justify-between gap-2 rounded-[var(--radius-sm)]"
+        >
 
             <div className="flex gap-3 flex-1">
+
                 <div className="text-3xl flex items-center justify-center w-11 ">
                     {row.category_icon}
                 </div>
+
                 <div className="flex flex-col gap-1">
-                    <span className="font-medium text-sm w-30 xl:w-40 truncate capitalize">{row.description || '-'}</span>
+
+                    <span className="font-medium text-sm w-30 xl:w-40 truncate capitalize">
+                        {row.description || '-'}
+                    </span>
 
                     <div className="flex items-center gap-3">
                         <span className="text-xs opacity-70">
@@ -63,7 +70,9 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
                             {row.category_name}
                         </span>
                     </div>
+                    
                 </div>
+
             </div>
 
             <div 
@@ -81,7 +90,7 @@ const ExpensesRowComponent = ({row = {} as ExpensesList, categories, isCategorie
                 categoriesError={categoriesError}
             />
 
-            <DeleteExpenseConfirmation 
+            <DeleteConfirmationDialog 
                 open={alertOpen}
                 onOpenChange={setAlertOpen}
                 onDelete={handleExpenseDelete}

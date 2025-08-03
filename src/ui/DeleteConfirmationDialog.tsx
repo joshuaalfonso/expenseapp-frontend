@@ -1,4 +1,5 @@
 
+
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -18,7 +19,7 @@ interface Props {
   isDeleting: boolean;
 }
 
-export const DeleteExpenseConfirmation = ({
+export const DeleteConfirmationDialog = ({
   open,
   onOpenChange,
   onDelete,
@@ -30,7 +31,7 @@ export const DeleteExpenseConfirmation = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete this expense.
+            This action cannot be undone. This data will be permanently deleted from our database.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -42,6 +43,7 @@ export const DeleteExpenseConfirmation = ({
               text-[var(--color-destructive)] 
               !border-[var(--color-destructive)]/10
               hover:!bg-[var(--color-destructive)]/60
+              hover:!text-white
             `}
             onClick={onDelete}
             disabled={isDeleting}

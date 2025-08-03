@@ -3,11 +3,11 @@ import type { CategoriesList } from "@/models/categories"
 import { useDeleteCategory } from "./useDeleteCategory"
 import { CreateEditCategories } from "./CreateEditCategories";
 import { useState } from "react";
-import { DeleteExpenseConfirmation } from "../expenses/DeleteExpenseConfimation";
 import DropdownActionMenu from "@/ui/DropdownActionMenu";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { formatNumber } from "@/utils/formatNumber";
+import { DeleteConfirmationDialog } from "@/ui/DeleteConfirmationDialog";
 
 
 export const CategoriesRow = ({row}: {row: CategoriesList}) => {
@@ -63,7 +63,7 @@ export const CategoriesRow = ({row}: {row: CategoriesList}) => {
                     setDialogOpen={setDialogOpen}
                 />
 
-                <DeleteExpenseConfirmation 
+                <DeleteConfirmationDialog 
                     open={alertOpen}
                     onOpenChange={setAlertOpen}
                     onDelete={handleCategoryDelete}

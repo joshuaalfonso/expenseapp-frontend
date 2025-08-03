@@ -4,6 +4,8 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangleIcon } from "lucide-react";
 import { BudgetRow } from "./BudgetRow";
 import { motion } from "framer-motion";
+import { NoDataFound } from "@/ui/NoDataFound";
+
 
 export const BudgetList = () => {
 
@@ -25,6 +27,8 @@ export const BudgetList = () => {
         </Alert>
     )
 
+    if (budgets?.length === 0) return <NoDataFound />
+ 
     // console.log('budget list init')
 
     return (
