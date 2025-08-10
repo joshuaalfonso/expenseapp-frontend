@@ -31,12 +31,12 @@ export const Header = () => {
                 <ToogleSidebar />
                 <div className='flex gap-2'>
                     <img src="low-price.png" alt="Logo" className="w-[30px] xl:w-[35px]"/>
-                    <p className='flex items-center font-semibold text-sm xl:text-xl'>Expense <span>Tracker</span></p>
+                    <span className='flex items-center font-semibold text-sm xl:text-base'>Expense <span>Tracker</span></span>
                 </div>
                 <div className="flex gap-2 items-center">
 
                     <ModeToggle />
-
+ 
                     <div>
                         {user && (
                             <>
